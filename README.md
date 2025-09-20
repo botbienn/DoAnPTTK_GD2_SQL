@@ -85,3 +85,20 @@ Here are the main capabilities the system provides:
 * **Examiner / Staff:** set up exam sessions, grade exams
 * **Candidates:** register, view schedule, view results
 * **Reporting:** generate reports of exam pass rates, certificate issuance, etc.
+
+<img width="1036" height="536" alt="image" src="https://github.com/user-attachments/assets/62d84e9a-9f82-4dca-9992-74b511e30fb4" />
+<img width="956" height="554" alt="image" src="https://github.com/user-attachments/assets/652d8fc6-3d51-4875-a1ec-35115766b5e6" />
+<img width="838" height="675" alt="image" src="https://github.com/user-attachments/assets/f19cad42-ffa0-475d-8d2e-59dc5a74841a" />
+<img width="838" height="470" alt="image" src="https://github.com/user-attachments/assets/e7c777eb-3640-4bb4-9f8b-e6722795d9e8" />
+<img width="838" height="424" alt="image" src="https://github.com/user-attachments/assets/9230848f-9ee2-4bd0-9cf5-d1d76009bd5f" />
+<img width="839" height="469" alt="image" src="https://github.com/user-attachments/assets/69092e85-8aaf-409f-bea5-ac8289817d16" />
+<img width="840" height="433" alt="image" src="https://github.com/user-attachments/assets/cd28dc81-9df1-42a8-88ca-71aa4249b442" />
+<img width="840" height="600" alt="image" src="https://github.com/user-attachments/assets/d6f7d395-01c3-4188-8b67-6ef3bab81c87" />
+
+
+
+
+
+
+
+

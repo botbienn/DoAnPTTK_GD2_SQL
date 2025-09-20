@@ -10,9 +10,10 @@ This project (“DoAnPTTK\_GD2\_SQL”) is a management system built for a **Cer
 
 1. [Features](#features)
 2. [Architecture & Technologies](#architecture--technologies)
-3. [Requirements](#requirements)
-4. [Setup and Installation](#setup-and-installation)
-5. [Usage](#usage)
+3. [Data Model / Database Schema](#data-model--database-schema)
+4. [Requirements](#requirements)
+5. [Setup and Installation](#setup-and-installation)
+6. [Usage](#usage)
 
 ---
 
@@ -35,6 +36,90 @@ Here are the main capabilities the system provides:
 * **Backend**: (If applicable) e.g. RESTful API / MVC architecture
 * **Frontend**: (If applicable) Web UI for users
 * **Other**: scheduling logic, perhaps batch jobs (for reminders), logging.
+
+---
+
+## Data Model / Database Schema
+
+The database is implemented in **SQL Server** with the name `QuanLyDangKyThi`.
+Below is an overview of the schema:
+
+---
+
+### 1. Employees & Accounts
+
+| Table        | Description                                                                                                                |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| **NhanVien** | Stores employees’ information: name, birthdate, address, and type (`manager`, `receptionist`, `accountant`, `data-entry`). |
+| **ACCOUNT**  | Login credentials linked **1–1** with `NhanVien`.                                                                          |
+| **QuanLy**   | Subtype table for managers.                                                                                                |
+| **TiepNhan** | Subtype table for receptionists.                                                                                           |
+| **KeToan**   | Subtype table for accountants.                                                                                             |
+| **NhapLieu** | Subtype table for data-entry staff.                                                                                        |
+
+---
+
+### 2. Certifications & Exam Schedules
+
+| Table              | Description                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| **ChungChi**       | Certification catalog (type, name, fee).                                                    |
+| **PhongThi**       | Exam rooms available at the center.                                                         |
+| **LichThi**        | Exam schedules, referencing `ChungChi` and `PhongThi`, includes exam date, time, and venue. |
+| **NhanVienCoiThi** | Assignment of employees to supervise specific exam sessions.                                |
+
+---
+
+### 3. Customers & Registration Forms
+
+| Table           | Description                                                                                                                             |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **KhachHang**   | Customers (individuals or organizations) with personal details, ID, phone, and email.                                                   |
+| **PhieuDangKy** | Registration form created for a customer, linked to the receptionist who processed it.                                                  |
+| **PhieuCaNhan** | Subtype for individual registration forms.                                                                                              |
+| **PhieuDonVi**  | Subtype for organizational registration forms, includes number of participants, exam type, requested date, and additional requirements. |
+
+---
+
+### 4. Finance & Payments
+
+| Table              | Description                                                             |
+| ------------------ | ----------------------------------------------------------------------- |
+| **HoaDon**         | Invoice for each registration form, created by accountants.             |
+| **PhieuThanhToan** | Payment record specific to organizational registrations (`PhieuDonVi`). |
+
+---
+
+### 5. Candidates & Exams
+
+| Table             | Description                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| **ThiSinh**       | Candidates linked to a registration form.                                                   |
+| **PhieuDuThi**    | Exam admission ticket (exam number, schedule, score, created by manager).                   |
+| **DanhSachCho**   | Waiting list of candidates pending confirmation or scheduling.                              |
+| **DanhSachDKThi** | Many-to-many relation between `PhieuDangKy` (registrations) and `LichThi` (exam schedules). |
+
+---
+
+### 6. Results & Rescheduling
+
+| Table              | Description                                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **KetQuaChungChi** | Certification results, issue date, status, customer confirmation, linked to data-entry staff and accountant. |
+| **PhieuGiaHan**    | Rescheduling form for a candidate, linking one registration form to an old exam schedule and a new one.      |
+
+---
+
+### Main Relationships (ERD logic)
+
+* **NhanVien** has **1–1** relation with **ACCOUNT**, and subtyped into **QuanLy / TiepNhan / KeToan / NhapLieu**.
+* **KhachHang** (customer) has **1–N** relation with **PhieuDangKy** (registration forms).
+* **PhieuDangKy** branches into **PhieuCaNhan** (individual) or **PhieuDonVi** (organization).
+* **PhieuDangKy** has **1–N** relation with **ThiSinh** (candidates).
+* **ThiSinh** are linked to **PhieuDuThi** (exam admission tickets) → which lead to **KetQuaChungChi** (results).
+* **LichThi** (exam schedules) are linked to **ChungChi** (certifications) and **PhongThi** (rooms), and supervised by **NhanVienCoiThi**.
+* **Finance** is handled by **HoaDon** (invoice) and **PhieuThanhToan** (payment form for organizations).
+* **PhieuGiaHan** links a registration to two exam schedules (old/new) for rescheduling.
 
 ---
 
